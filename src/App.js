@@ -1,9 +1,22 @@
+import { Context } from './Contexts/Auth';
+
+
 import LogIn from "./Pages/LogIn";
 
-function App() {
+import { Switch, Route } from 'react-router-dom';
+
+export default function App() {
+  const { isAuth } = Context();
   return (
-    <LogIn/>
+    <>
+      {
+        isAuth ?
+            <Switch>
+              <Route exact path="/test/" component={<div>Test</div>} />
+            </Switch>
+            :
+            <LogIn/>
+      }
+    </>
   );
 }
-
-export default App;
