@@ -9,7 +9,8 @@ import {
 } from "./Pages/Research";
 
 import {
-  List as UserList
+  List as UserList,
+  Show as UserShow
 } from "./Pages/Users";
 
 
@@ -28,6 +29,7 @@ export default function App() {
                 <Route exact path="/" component={Dashboard} />
                 <Route exact path="/researches" component={ResearchList} />
                 <Route exact path="/users" component={UserList} />
+                <Route exact path="/users/:id" component={UserShow} />
               </Switch>
             </REDrawer>
             :
