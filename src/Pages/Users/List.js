@@ -7,12 +7,17 @@ import { useHistory } from "react-router-dom";
 import { GetUsers, DeleteUser } from "../../Actions";
 
 import RETable from "../Components/Controls/RETable";
+import REModal from "../Components/Controls/REModal";
+import toast from '../../Utils/Toast';
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ GetUsers, DeleteUser }, dispatch);
 }
-function List({GetUsers, DeleteUser}) {
+
+function List({ GetUsers, DeleteUser }) {
     const [Users, SetUsers] = useState([]);
+    const [DeleteModal, SetDeleteModal] = useState(false);
+    const [User, SetUser] = useState(null);
     const history = useHistory();
 
     useEffect(() =>{
@@ -23,9 +28,23 @@ function List({GetUsers, DeleteUser}) {
         })
     }, [])
 
+    const ActionModal = () =>{
+        DeleteUser(User).then(res => {
+            toast.info(res.payload.statusText);
+            SetDeleteModal(false);
+            GetUsers().then(res => {
+                if(res && res.payload && res.payload.data){
+                    SetUsers(res.payload.data);
+                }
+            })
+        });
+    }
+
     return (
+        <>
+            { DeleteModal ? <REModal Action={ActionModal} User={User} Close={SetDeleteModal}/> : <></> }
         <RETable
-            data={Users}
+            data={ Users }
             columns={[
             { title: 'First name', field: 'firstName' },
             { title: 'Last name', field: 'lastName' },
@@ -37,16 +56,19 @@ function List({GetUsers, DeleteUser}) {
                 {
                     icon: 'visibility',
                     tooltip: 'Show user',
-                    onClick: (event, rowData) => history.push(`users/${rowData.id}`)
+                    onClick: (_, rowData) => history.push(`users/${rowData.id}`)
                 },
                 {
                     icon: 'delete',
                     tooltip: 'Delete user',
-                    onClick: (event, rowData) => DeleteUser(rowData.id)
+                    onClick: (_, rowData) => {
+                        SetUser(rowData.id);
+                        SetDeleteModal(true)
+                    }
                 }
             ]}
         />
+        </>
     );
 }
-
 export default connect(null, mapDispatchToProps)(List);
