@@ -1,6 +1,9 @@
 import {
+    AuthenticateType,
     GetUsersType,
-    AuthenticateType
+    GetUserType,
+    EditUserType,
+    DeleteUserType
 } from "../Actions/ActionTypes";
 
 export default function (state = [], action) {
@@ -8,6 +11,12 @@ export default function (state = [], action) {
         case AuthenticateType:
             return [action.payload.data, ...state];
         case GetUsersType:
+            return [action.payload.data, ...state];
+        case GetUserType:
+            return [action.payload.data, ...state];
+        case EditUserType:
+            return [action.payload.data, ...state];
+        case DeleteUserType:
             return [action.payload.data, ...state];
     }
     return state;

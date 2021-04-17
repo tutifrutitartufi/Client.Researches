@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 
 import { GetUser } from "../../Actions";
 import RECardMedia from "../Components/Controls/RECardMedia";
+import REAction from "../Components/Controls/REAction";
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ GetUser }, dispatch);
@@ -23,6 +24,7 @@ function Show({GetUser}) {
     }, [])
     return (
         <>
+            <REAction/>
             <RECardMedia User={User}/>
         </>
     );

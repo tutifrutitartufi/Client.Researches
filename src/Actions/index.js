@@ -3,7 +3,9 @@ import {
     AuthenticateType,
     GetUsersType,
     GetUserType,
-    DeleteUserType
+    DeleteUserType,
+    EditUserType,
+    NewUserType
 } from "./ActionTypes";
 
 export function Authenticate(username, password) {
@@ -51,7 +53,36 @@ export function DeleteUser(id) {
         }
     });
     return {
-        type: GetUserType,
+        type: DeleteUserType,
+        payload: Request,
+    };
+}
+
+export function EditUser(user) {
+    const Url = `${process.env.REACT_APP_API_URL}User`;
+    const Request = axios.put(Url, {
+        ...user
+    },{
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: EditUserType,
+        payload: Request,
+    };
+}
+export function NewUser(user) {
+    const Url = `${process.env.REACT_APP_API_URL}User`;
+    const Request = axios.post(Url, {
+        ...user
+    },{
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: NewUserType,
         payload: Request,
     };
 }

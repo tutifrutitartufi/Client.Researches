@@ -1,10 +1,14 @@
 import { TextField } from '@material-ui/core'
 
-export default function RETextfield(props){
+export default function REDatepicker(props){
     return <TextField
-        type={props.label === 'Password' ? 'password' : 'text'}
+        id="date"
+        type="date"
         label={props.label}
         value={props.value}
         onChange={props.onChange}
+        InputLabelProps={{
+            shrink: true
+        }}
     />
 }

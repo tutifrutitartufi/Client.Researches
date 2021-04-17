@@ -8,7 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import { formatRole, formatDateTime } from "../../../Utils";
+import { formatRole, formatDateTimeList } from "../../../Utils";
 const useStyles = makeStyles({
     media: {
         height: 400,
@@ -35,18 +35,13 @@ export default function RECardMedia({User}) {
                         Username: {`${User.username}`}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        Date of birth: {`${formatDateTime(User.dateOfBirth)}`}
+                        Date of birth: {`${formatDateTimeList(User.dateOfBirth)}`}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
                         Role:  {`${formatRole(User.role)}`}
                     </Typography>
                 </CardContent>
             </CardActionArea>
-            <CardActions>
-                <Button size="small" color="primary">
-                    Edit
-                </Button>
-            </CardActions>
         </Card>
     );
 }
