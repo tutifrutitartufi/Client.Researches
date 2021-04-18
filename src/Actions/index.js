@@ -5,7 +5,11 @@ import {
     GetUserType,
     DeleteUserType,
     EditUserType,
-    NewUserType
+    NewUserType,
+    GetResearchesType,
+    DeleteResearchType,
+    GetResearchType,
+    GetPostsType
 } from "./ActionTypes";
 
 export function Authenticate(username, password) {
@@ -45,6 +49,7 @@ export function GetUser(id) {
         payload: Request,
     };
 }
+
 export function DeleteUser(id) {
     const Url = `${process.env.REACT_APP_API_URL}User/${id}`;
     const Request = axios.delete(Url, {
@@ -86,3 +91,72 @@ export function NewUser(user) {
         payload: Request,
     };
 }
+
+export function GetResearches() {
+    const Url = `${process.env.REACT_APP_API_URL}Research`;
+    const Request = axios.get(Url,{
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: GetResearchesType,
+        payload: Request,
+    };
+}
+
+export function DeleteResearch(id) {
+    const Url = `${process.env.REACT_APP_API_URL}Research/${id}`;
+    const Request = axios.delete(Url, {
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: DeleteResearchType,
+        payload: Request,
+    };
+}
+
+export function GetResearch(id) {
+    const Url = `${process.env.REACT_APP_API_URL}Research/${id}`;
+    const Request = axios.get(Url, {
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: GetResearchType,
+        payload: Request,
+    };
+}
+
+export function GetPosts(id) {
+    const Url = `${process.env.REACT_APP_API_URL}Research/${id}/Post`;
+    const Request = axios.get(Url,{
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: GetPostsType,
+        payload: Request,
+    };
+}
+
+export function GetCanvasses(id) {
+    const Url = `${process.env.REACT_APP_API_URL}Research/${id}/Canvas`;
+    const Request = axios.get(Url,{
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: GetPostsType,
+        payload: Request,
+    };
+}
+
+
+
+

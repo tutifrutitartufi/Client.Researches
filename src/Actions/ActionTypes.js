@@ -4,3 +4,7 @@ export const GetUserType = "GetUserType";
 export const DeleteUserType = "DeleteUserType";
 export const EditUserType = "EditUserType";
 export const NewUserType = "NewUserType";
+export const GetResearchesType = "GetResearchesType";
+export const DeleteResearchType = "DeleteResearchType";
+export const GetResearchType = "GetResearchType";
+export const GetPostsType = "GetPostsType";

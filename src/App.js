@@ -1,12 +1,13 @@
-import { Context } from './Contexts/Auth';
+import { Context as AuthContext } from './Contexts/Auth';
 
 
 import LogIn from "./Pages/LogIn";
 import Dashboard from "./Pages/Dashboard";
 
 import {
-  List as ResearchList
-} from "./Pages/Research";
+  List as ResearchList,
+  Show as ResearchShow
+} from "./Pages/Researches";
 
 import {
   List as UserList,
@@ -21,7 +22,7 @@ import REDrawer from "./Pages/Components/Controls/REDrawer";
 import { Switch, Route } from 'react-router-dom';
 
 export default function App() {
-  const { isAuth } = Context();
+  const { isAuth } = AuthContext();
   return (
     <>
       {
@@ -30,6 +31,7 @@ export default function App() {
               <Switch>
                 <Route exact path="/" component={Dashboard} />
                 <Route exact path="/researches" component={ResearchList} />
+                <Route exact path="/researches/:id" component={ResearchShow} />
                 <Route exact path="/users" component={UserList} />
                 <Route exact path="/users/new" component={UserNew} />
                 <Route exact path="/users/:id" component={UserShow} />
