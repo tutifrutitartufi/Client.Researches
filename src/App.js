@@ -6,7 +6,8 @@ import Dashboard from "./Pages/Dashboard";
 
 import {
   List as ResearchList,
-  Show as ResearchShow
+  Show as ResearchShow,
+  New as ResearchNew
 } from "./Pages/Researches";
 
 import {
@@ -31,6 +32,7 @@ export default function App() {
               <Switch>
                 <Route exact path="/" component={Dashboard} />
                 <Route exact path="/researches" component={ResearchList} />
+                <Route exact path="/researches/new" component={ResearchNew} />
                 <Route exact path="/researches/:id" component={ResearchShow} />
                 <Route exact path="/users" component={UserList} />
                 <Route exact path="/users/new" component={UserNew} />

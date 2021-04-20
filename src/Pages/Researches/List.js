@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 
 
 import { GetResearches, DeleteResearch } from "../../Actions";
-import { formatDateTimeList, formatRole } from "../../Utils"
 import RETable from "../Components/Controls/RETable";
 import REModal from "../Components/Controls/REModal";
 import toast from '../../Utils/Toast';
@@ -67,7 +66,7 @@ function List({GetResearches, DeleteResearch}) {
                         icon: 'add',
                         tooltip: 'Add Research',
                         isFreeAction: true,
-                        onClick: () => history.push(`/research/new`)
+                        onClick: () => history.push(`/researches/new`)
                     }
                 ]}
             />

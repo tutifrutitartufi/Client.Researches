@@ -5,9 +5,10 @@ import { useHistory, useParams } from "react-router-dom";
 import { Tabs, Paper, Tab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import {GetPosts, GetCanvasses, GetResearch} from "../../Actions";
-import REPost from "../Components/Controls/REPost";
-import RECanvas from "../Components/Controls/RECanvas";
+import { GetPosts, GetCanvasses, GetResearch } from "../../Actions";
+
+import PostListing from '../Components/PostListing'
+import CanvasListing from '../Components/CanvasListing'
 
 import '../Assets/Styles/ShowResearch.scss';
 
@@ -26,24 +27,15 @@ function Show( { GetPosts, GetCanvasses, GetResearch } ) {
     const [ TabNum, SetTabNum ] = useState(0)
     const [ Posts, SetPosts ] = useState([]);
     const [ Canvasses, SetCanvasses ] = useState([]);
+    const [ Research, SetResearch ] = useState({});
 
     let { id } = useParams();
     const history = useHistory();
 
     useEffect(() =>{
-        GetPosts(id).then(res => {
-            if(res && res.payload && res.payload.data) {
-                SetPosts(res.payload.data);
-            }
-        })
-        GetCanvasses(id).then(res => {
-            if(res && res.payload && res.payload.data) {
-                SetCanvasses(res.payload.data);
-            }
-        })
         GetResearch(id).then(res => {
             if(res && res.payload && res.payload.data) {
-                console.log(res.payload.data)
+                SetResearch(res.payload.data);
             }
         })
     }, [])
@@ -51,18 +43,23 @@ function Show( { GetPosts, GetCanvasses, GetResearch } ) {
     const Content = () => {
         switch (TabNum) {
             case 0:
-                return Posts.map((post, index) => <REPost key={"_" + index} {...post}/>)
+                return <PostListing/>
             case 1:
-                return Canvasses.map((canvas, index) => <RECanvas key={"_" + index} {...canvas}/>)
+                return <CanvasListing/>
             case 2:
                 return renderInfo();
 
         }
     }
 
-    const renderInfo = () => {
-        return <div>test123</div>
-    }
+    const renderInfo = () =>
+        ( <div>
+                <span>Name: { Research.name }</span>
+                <span>Moderator: { Research.moderator }</span>
+                <div>Members:
+                    { Research.members.map((member) => <div>{member}</div>) }
+                </div>
+            </div> )
 
     return (
         <>

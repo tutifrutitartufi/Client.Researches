@@ -9,7 +9,10 @@ import {
     GetResearchesType,
     DeleteResearchType,
     GetResearchType,
-    GetPostsType
+    NewResearchType,
+    GetPostsType,
+    NewPostType,
+    NewCanvasType
 } from "./ActionTypes";
 
 export function Authenticate(username, password) {
@@ -131,6 +134,21 @@ export function GetResearch(id) {
     };
 }
 
+export function NewResearch(research) {
+    const Url = `${process.env.REACT_APP_API_URL}Research`;
+    const Request = axios.post(Url, {
+        ...research
+    },{
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: NewResearchType,
+        payload: Request,
+    };
+}
+
 export function GetPosts(id) {
     const Url = `${process.env.REACT_APP_API_URL}Research/${id}/Post`;
     const Request = axios.get(Url,{
@@ -144,6 +162,21 @@ export function GetPosts(id) {
     };
 }
 
+export function NewPost(id, post) {
+    const Url = `${process.env.REACT_APP_API_URL}Research/${id}/Post`;
+    const Request = axios.post(Url, {
+        ...post
+    },{
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: NewPostType,
+        payload: Request,
+    };
+}
+
 export function GetCanvasses(id) {
     const Url = `${process.env.REACT_APP_API_URL}Research/${id}/Canvas`;
     const Request = axios.get(Url,{
@@ -153,6 +186,21 @@ export function GetCanvasses(id) {
     });
     return {
         type: GetPostsType,
+        payload: Request,
+    };
+}
+
+export function NewCanvas(id, canvas) {
+    const Url = `${process.env.REACT_APP_API_URL}Research/${id}/Canvas`;
+    const Request = axios.post(Url, {
+        ...canvas
+    },{
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: NewCanvasType,
         payload: Request,
     };
 }

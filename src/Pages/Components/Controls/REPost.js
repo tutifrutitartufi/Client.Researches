@@ -5,8 +5,8 @@ export default function REPost(props){
     return (
         <Paper elevation={3} >
             <div>{props.content}</div>
-            <div>Likes: {props.likes.length}</div>
-            <div>Dislikes: {props.dislikes.length}</div>
+            <div>Likes: {props.likes && props.likes.length}</div>
+            <div>Dislikes: {props.dislikes && props.dislikes.length}</div>
         </Paper>
     )
 
