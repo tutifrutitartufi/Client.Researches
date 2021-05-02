@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { NewPost, GetPosts } from "../../Actions";
+import { NewPost, GetPosts, DeletePost } from "../../Actions";
 import '../Assets/Styles/PostListing.scss';
 import '../Assets/Styles/Controls/REPost.scss'
 import { useEffect, useState } from "react";
@@ -12,9 +12,10 @@ import { Paper } from "@material-ui/core";
 import {toast} from "react-toastify";
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ NewPost, GetPosts }, dispatch);
+    return bindActionCreators({ NewPost, GetPosts, DeletePost }, dispatch);
 }
-function PostListing({NewPost, GetPosts}) {
+
+function PostListing({NewPost, GetPosts, DeletePost}) {
     const [ Posts, SetPosts ] = useState([]);
     const [ NewPostState, SetNewPostState ] = useState(false);
     const [ NewPostContent, SetNewPostContent ] = useState('');
@@ -22,24 +23,36 @@ function PostListing({NewPost, GetPosts}) {
 
 
     useEffect(() => {
+        GetPostItems();
+    },[])
+
+    const GetPostItems = () => {
         GetPosts(id).then(res => {
             if (res && res.payload && res.payload.data) {
                 SetPosts(res.payload.data);
             }
         })
-    })
+    }
+
+    const DeletePostItem = (postId) => {
+        DeletePost(id, postId).then(res => {
+            if(res && res.payload && res.payload.data) {
+                GetPostItems();
+                toast.success('Success');
+            }
+        })
+    }
 
     const SaveNewPost = () => {
-        NewPost(id, {content: NewPostContent}).then(res => {
+        NewPost(id, {content: NewPostContent, likes: ['607df0cc8e71f8008f158413'], dislikes: ['607df0cc8e71f8008f158413']}).then(res => {
             if (res && res.payload && res.payload.data) {
                 toast.success('Success');
+                GetPostItems();
                 SetNewPostContent('');
                 SetNewPostState(false);
             }
         })
     }
-
-
 
     const RenderNewPost = () => {
         return (
@@ -60,7 +73,7 @@ function PostListing({NewPost, GetPosts}) {
 
     return (
         <>
-            { Posts.map((post, index) => <REPost key={"_" + index} {...post}/>) }
+            { Posts.map((post, index) => <REPost key={"_" + index} DeletePostItem={DeletePostItem} {...post}/>) }
             <div className='re_post-listing-action-wrapper'>
                 { NewPostState && RenderNewPost() }
                 <REButton value='Add post' onClick={() => SetNewPostState(true)}/>

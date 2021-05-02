@@ -12,7 +12,11 @@ import {
     NewResearchType,
     GetPostsType,
     NewPostType,
-    NewCanvasType
+    DeletePostType,
+    GetCanvassesType,
+    NewCanvasType,
+    DeleteCanvasType,
+    GetQuestionsType, NewQuestionType, DeleteQuestionType
 } from "./ActionTypes";
 
 export function Authenticate(username, password) {
@@ -177,6 +181,19 @@ export function NewPost(id, post) {
     };
 }
 
+export function DeletePost(researchId, id) {
+    const Url = `${process.env.REACT_APP_API_URL}Research/${researchId}/Post/${id}`;
+    const Request = axios.delete(Url, {
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: DeletePostType,
+        payload: Request,
+    };
+}
+
 export function GetCanvasses(id) {
     const Url = `${process.env.REACT_APP_API_URL}Research/${id}/Canvas`;
     const Request = axios.get(Url,{
@@ -185,7 +202,7 @@ export function GetCanvasses(id) {
         }
     });
     return {
-        type: GetPostsType,
+        type: GetCanvassesType,
         payload: Request,
     };
 }
@@ -205,6 +222,59 @@ export function NewCanvas(id, canvas) {
     };
 }
 
+export function DeleteCanvas(researchId, id) {
+    const Url = `${process.env.REACT_APP_API_URL}Research/${researchId}/Canvas/${id}`;
+    const Request = axios.delete(Url, {
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: DeleteCanvasType,
+        payload: Request,
+    };
+}
+
+export function GetQuestions(id, canvasId) {
+    const Url = `${process.env.REACT_APP_API_URL}Research/${id}/Canvas/${canvasId}/Question`;
+    const Request = axios.get(Url,{
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: GetQuestionsType,
+        payload: Request,
+    };
+}
+
+export function NewQuestion(id, canvasId, question) {
+    const Url = `${process.env.REACT_APP_API_URL}Research/${id}/Canvas/${canvasId}/Question`;
+    const Request = axios.post(Url, {
+        ...question
+    },{
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: NewQuestionType,
+        payload: Request,
+    };
+}
+
+export function DeleteQuestion(researchId, canvasId, questionId) {
+    const Url = `${process.env.REACT_APP_API_URL}Research/${researchId}/Canvas/${canvasId}/Question/${questionId}`;
+    const Request = axios.delete(Url, {
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: DeleteQuestionType,
+        payload: Request,
+    };
+}
 
 
 

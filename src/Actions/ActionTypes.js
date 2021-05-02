@@ -9,5 +9,12 @@ export const DeleteResearchType = "DeleteResearchType";
 export const NewResearchType = "NewResearchType";
 export const GetResearchType = "GetResearchType";
 export const GetPostsType = "GetPostsType";
+export const DeletePostType = "DeletePostType";
 export const NewPostType = "NewPostType";
+export const GetCanvassesType = "GetCanvassesType";
 export const NewCanvasType = "NewCanvasType";
+export const DeleteCanvasType = "DeleteCanvasType";
+export const NewQuestionType = "NewQuestionType";
+export const DeleteQuestionType = "DeleteQuestionType";
+export const GetQuestionsType = "GetQuestionsType";
+

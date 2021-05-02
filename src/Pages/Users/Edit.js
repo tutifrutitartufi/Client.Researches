@@ -126,7 +126,7 @@ function Show( {GetUser, EditUser} ) {
                 />
                 <RESelect
                     label='Role'
-                    value={Role}
+                    value={ Role }
                     onChange={(e) => {
                         SetRole(e.target.value);
                     }}
