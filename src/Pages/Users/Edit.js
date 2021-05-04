@@ -12,18 +12,19 @@ import { formatDateTimeEdit } from '../../Utils';
 
 import '../Assets/Styles/EditUser.scss';
 import REButton from "../Components/Controls/REButton";
+import RELoader from "../Components/Controls/RELoader";
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ GetUser, EditUser }, dispatch);
 }
 function Show( {GetUser, EditUser} ) {
-    const [ User, SetUser ] = useState({});
     const [ FirstName, SetFirstName ] = useState('');
     const [ LastName, SetLastName ] = useState('');
     const [ Username, SetUsername ] = useState('');
     const [ Role, SetRole ] = useState(0);
     const [ DateOfBirth, SetDateOfBirth ] = useState('2021-04-11');
     const [ ProfilePicture, SetProfilePicture ] = useState();
+    const [ IsLoading, SetLoading ] = useState(true);
 
     let history = useHistory();
     let { id } = useParams();
@@ -31,7 +32,6 @@ function Show( {GetUser, EditUser} ) {
     useEffect(() =>{
         GetUser(id).then(res => {
             if(res && res.payload && res.payload.data){
-                console.log(formatDateTimeEdit(res.payload.data.dateOfBirth))
                 SetFirstName(res.payload.data.firstName);
                 SetLastName(res.payload.data.lastName);
                 SetUsername(res.payload.data.username);
@@ -39,8 +39,9 @@ function Show( {GetUser, EditUser} ) {
                 SetDateOfBirth(formatDateTimeEdit(res.payload.data.dateOfBirth));
                 SetProfilePicture(res.payload.data.profilePicture);
             }
+            SetLoading(false);
         })
-    }, [])
+    }, []);
 
     const SaveUser = () => {
         EditUser({
@@ -51,10 +52,10 @@ function Show( {GetUser, EditUser} ) {
             role: Role,
             dateOfBirth: DateOfBirth,
             profilePicture: ProfilePicture
-        }).then((res) => {
+        }).then(() => {
             history.push(`/users/${id}`)
         })
-    }
+    };
 
     const FileChange = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -62,10 +63,10 @@ function Show( {GetUser, EditUser} ) {
             reader.onload = function (e) {
                 document.getElementById('profile_picture').src = e.target.result;
                 SetProfilePicture(e.target.result);
-            }
+            };
             reader.readAsDataURL(e.target.files[0]);
         }
-    }
+    };
 
     // In case you want to resize picture
     const UploadProfilePicture = () => {
@@ -82,6 +83,10 @@ function Show( {GetUser, EditUser} ) {
                 body: formdata
             })
             .then((res) => res.json())
+    };
+
+    if( IsLoading ) {
+        return <RELoader/>
     }
 
     return (

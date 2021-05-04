@@ -8,7 +8,6 @@ import { NewUser } from "../../Actions";
 import RETextfield from "../Components/Controls/RETextfield";
 import REDatepicker from "../Components/Controls/REDatepicker";
 import RESelect from "../Components/Controls/RESelect";
-import { formatDateTimeEdit } from '../../Utils';
 
 import '../Assets/Styles/EditUser.scss';
 import REButton from "../Components/Controls/REButton";
@@ -50,7 +49,7 @@ function New( { NewUser } ) {
             }
             reader.readAsDataURL(e.target.files[0]);
         }
-    }
+    };
 
     // In case you want to resize picture
     const UploadProfilePicture = () => {
@@ -67,7 +66,7 @@ function New( { NewUser } ) {
                 body: formdata
             })
             .then((res) => res.json())
-    }
+    };
 
     return (
         <>

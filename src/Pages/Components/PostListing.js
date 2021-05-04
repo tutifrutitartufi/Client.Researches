@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import REButton from "./Controls/REButton";
 import REPost from "./Controls/REPost";
 import { Paper } from "@material-ui/core";
+import RELoader from "./Controls/RELoader";
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ NewPost, GetPosts, DeletePost }, dispatch);
@@ -19,19 +20,21 @@ function PostListing({NewPost, GetPosts, DeletePost}) {
     const [ NewPostState, SetNewPostState ] = useState(false);
     const [ NewPostContent, SetNewPostContent ] = useState('');
     let { id } = useParams();
+    const [ IsLoading, SetLoading ] = useState(true);
 
 
     useEffect(() => {
         GetPostItems();
-    },[])
+    },[]);
 
     const GetPostItems = () => {
         GetPosts(id).then(res => {
             if (res && res.payload && res.payload.data) {
                 SetPosts(res.payload.data);
             }
+            SetLoading(false);
         })
-    }
+    };
 
     const DeletePostItem = (postId) => {
         DeletePost(id, postId).then(res => {
@@ -39,7 +42,7 @@ function PostListing({NewPost, GetPosts, DeletePost}) {
                 GetPostItems();
             }
         })
-    }
+    };
 
     const SaveNewPost = () => {
         NewPost(id, {content: NewPostContent, likes: ['607df0cc8e71f8008f158413'], dislikes: ['607df0cc8e71f8008f158413']}).then(res => {
@@ -49,7 +52,7 @@ function PostListing({NewPost, GetPosts, DeletePost}) {
                 SetNewPostState(false);
             }
         })
-    }
+    };
 
     const RenderNewPost = () => {
         return (
@@ -61,11 +64,15 @@ function PostListing({NewPost, GetPosts, DeletePost}) {
                 </div>
             </Paper>
         )
-    }
+    };
 
     const RemoveNewPost = () => {
         SetNewPostContent('');
         SetNewPostState(false);
+    };
+
+    if ( IsLoading ) {
+        return <RELoader/>
     }
 
     return (

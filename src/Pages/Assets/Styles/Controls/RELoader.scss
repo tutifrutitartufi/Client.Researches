@@ -1,0 +1,26 @@
+.re_loader_container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+
+
+  .re_loader_wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    .re_loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -20px;
+      margin-top: -20px;
+    }
+
+  }
+
+}

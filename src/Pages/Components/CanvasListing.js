@@ -8,28 +8,31 @@ import { useParams } from "react-router-dom";
 import REButton from "./Controls/REButton";
 import RECanvas from "./Controls/RECanvas";
 import { Paper } from "@material-ui/core";
+import RELoader from "./Controls/RELoader";
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ NewCanvas, GetCanvasses, DeleteCanvas }, dispatch);
 }
-function CanvasListing({NewCanvas, GetCanvasses, DeleteCanvas}) {
-    const [Canvasses, SetCanvasses] = useState([]);
+function CanvasListing({ NewCanvas, GetCanvasses, DeleteCanvas }) {
+    const [ Canvasses, SetCanvasses ] = useState([]);
     const [ NewCanvasState, SetNewCanvasState ] = useState(false);
     const [ NewCanvasTitle, SetNewCanvasTitle ] = useState('');
+    const [ IsLoading, SetLoading ] = useState(true);
     let { id } = useParams();
 
 
     useEffect(() => {
         GetCanvasItems();
-    },[])
+    },[]);
 
     const GetCanvasItems = () => {
         GetCanvasses(id).then(res => {
             if (res && res.payload && res.payload.data) {
                 SetCanvasses(res.payload.data);
             }
+            SetLoading(false);
         })
-    }
+    };
 
     const DeleteCanvasItem = (canvasId) => {
         DeleteCanvas(id, canvasId).then(res => {
@@ -37,17 +40,17 @@ function CanvasListing({NewCanvas, GetCanvasses, DeleteCanvas}) {
                 GetCanvasItems();
             }
         })
-    }
+    };
 
     const SaveNewCanvas = () => {
-        NewCanvas(id, {title: NewCanvasTitle}).then(res => {
+        NewCanvas(id, {title: NewCanvasTitle, questions: []}).then(res => {
             if (res && res.payload && res.payload.data) {
                 GetCanvasItems();
                 SetNewCanvasTitle('');
                 SetNewCanvasState(false);
             }
         })
-    }
+    };
 
     const RenderNewCanvas = () => {
         return (
@@ -62,11 +65,15 @@ function CanvasListing({NewCanvas, GetCanvasses, DeleteCanvas}) {
                 </div>
             </Paper>
         )
-    }
+    };
 
     const RemoveNewCanvas = () => {
         SetNewCanvasTitle('');
         SetNewCanvasState(false);
+    };
+
+    if( IsLoading ) {
+        return <RELoader/>
     }
 
     return (

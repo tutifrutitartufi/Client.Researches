@@ -10,6 +10,7 @@ import RESelect from "../Components/Controls/RESelect";
 
 import '../Assets/Styles/EditUser.scss';
 import REButton from "../Components/Controls/REButton";
+import RELoader from "../Components/Controls/RELoader";
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ NewResearch, GetUsers }, dispatch);
@@ -19,14 +20,16 @@ function New( { NewResearch, GetUsers } ) {
     const [ Moderator, SetModerator ] = useState('');
     const [ Members, SetMembers ] = useState([]);
     const [ Users, SetUsers ] = useState([]);
+    const [ IsLoading, SetLoading ] = useState(true);
 
     let history = useHistory();
 
     useEffect(() => {
             GetUsers().then((res) => {
                 SetUsers(res.payload.data);
+                SetLoading(false);
             })
-    }, [])
+    }, []);
 
     const SaveResearch = () => {
         NewResearch({
@@ -41,6 +44,10 @@ function New( { NewResearch, GetUsers } ) {
     const HandleChangeMembers = (event) => {
         SetMembers(event.target.value);
     };
+
+    if( IsLoading ) {
+        return <RELoader/>
+    }
 
     return (
         <>

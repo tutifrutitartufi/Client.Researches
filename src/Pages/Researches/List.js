@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { GetResearches, DeleteResearch } from "../../Actions";
 import RETable from "../Components/Controls/RETable";
 import REModal from "../Components/Controls/REModal";
+import RELoader from "../Components/Controls/RELoader";
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ GetResearches, DeleteResearch }, dispatch);
@@ -16,11 +17,13 @@ function List({GetResearches, DeleteResearch}) {
     const [Research, SetResearch] = useState([]);
     const [DeleteModal, SetDeleteModal] = useState(false);
     const history = useHistory();
+    const [ IsLoading, SetLoading ] = useState(true);
 
     useEffect(() =>{
         GetResearches().then(res => {
             if(res && res.payload && res.payload.data){
                 SetResearch(res.payload.data);
+                SetLoading(false);
             }
         })
     }, []);
@@ -35,6 +38,10 @@ function List({GetResearches, DeleteResearch}) {
             })
         });
     };
+
+    if(IsLoading) {
+        return <RELoader/>
+    }
 
     return (
         <>
