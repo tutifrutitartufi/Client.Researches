@@ -23,8 +23,8 @@ function List({GetResearches, DeleteResearch}) {
         GetResearches().then(res => {
             if(res && res.payload && res.payload.data){
                 SetResearch(res.payload.data);
-                SetLoading(false);
             }
+            SetLoading(false);
         })
     }, []);
 
