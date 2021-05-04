@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 import REButton from "./Controls/REButton";
 import RECanvas from "./Controls/RECanvas";
 import { Paper } from "@material-ui/core";
-import {toast} from "react-toastify";
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ NewCanvas, GetCanvasses, DeleteCanvas }, dispatch);
@@ -36,7 +35,6 @@ function CanvasListing({NewCanvas, GetCanvasses, DeleteCanvas}) {
         DeleteCanvas(id, canvasId).then(res => {
             if(res && res.payload && res.payload.data) {
                 GetCanvasItems();
-                toast.success('Success');
             }
         })
     }
@@ -44,7 +42,6 @@ function CanvasListing({NewCanvas, GetCanvasses, DeleteCanvas}) {
     const SaveNewCanvas = () => {
         NewCanvas(id, {title: NewCanvasTitle}).then(res => {
             if (res && res.payload && res.payload.data) {
-                toast.success('Success');
                 GetCanvasItems();
                 SetNewCanvasTitle('');
                 SetNewCanvasState(false);

@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom";
 import REButton from "./Controls/REButton";
 import REPost from "./Controls/REPost";
 import { Paper } from "@material-ui/core";
-import {toast} from "react-toastify";
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ NewPost, GetPosts, DeletePost }, dispatch);
@@ -38,7 +37,6 @@ function PostListing({NewPost, GetPosts, DeletePost}) {
         DeletePost(id, postId).then(res => {
             if(res && res.payload && res.payload.data) {
                 GetPostItems();
-                toast.success('Success');
             }
         })
     }
@@ -46,7 +44,6 @@ function PostListing({NewPost, GetPosts, DeletePost}) {
     const SaveNewPost = () => {
         NewPost(id, {content: NewPostContent, likes: ['607df0cc8e71f8008f158413'], dislikes: ['607df0cc8e71f8008f158413']}).then(res => {
             if (res && res.payload && res.payload.data) {
-                toast.success('Success');
                 GetPostItems();
                 SetNewPostContent('');
                 SetNewPostState(false);

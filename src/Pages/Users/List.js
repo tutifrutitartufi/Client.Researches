@@ -8,7 +8,6 @@ import { GetUsers, DeleteUser } from "../../Actions";
 import { formatDateTimeList, formatRole } from "../../Utils"
 import RETable from "../Components/Controls/RETable";
 import REModal from "../Components/Controls/REModal";
-import toast from '../../Utils/Toast';
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ GetUsers, DeleteUser }, dispatch);
@@ -30,7 +29,6 @@ function List({ GetUsers, DeleteUser }) {
 
     const ActionModal = () =>{
         DeleteUser(User).then(res => {
-            toast.success(res.payload.statusText);
             SetDeleteModal(false);
             GetUsers().then(res => {
                 if(res && res.payload && res.payload.data){

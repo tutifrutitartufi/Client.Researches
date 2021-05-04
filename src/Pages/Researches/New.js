@@ -10,7 +10,6 @@ import RESelect from "../Components/Controls/RESelect";
 
 import '../Assets/Styles/EditUser.scss';
 import REButton from "../Components/Controls/REButton";
-import { toast } from "react-toastify";
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ NewResearch, GetUsers }, dispatch);
@@ -35,12 +34,9 @@ function New( { NewResearch, GetUsers } ) {
             moderator: Moderator,
             members: Members,
         }).then((res) => {
-            if(res.payload.status === 201) {
-                toast.success('Success')
-            }
             history.push(`/researches/${res.payload.data.id}`)
         })
-    }
+    };
 
     const HandleChangeMembers = (event) => {
         SetMembers(event.target.value);

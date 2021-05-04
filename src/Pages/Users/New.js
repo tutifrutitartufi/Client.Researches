@@ -12,7 +12,6 @@ import { formatDateTimeEdit } from '../../Utils';
 
 import '../Assets/Styles/EditUser.scss';
 import REButton from "../Components/Controls/REButton";
-import {toast} from "react-toastify";
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ NewUser }, dispatch);
@@ -38,9 +37,6 @@ function New( { NewUser } ) {
             dateOfBirth: DateOfBirth,
             profilePicture: ProfilePicture
         }).then((res) => {
-            if(res.payload.status === 201) {
-                toast.success('Success')
-            }
             history.push(`/users/${res.payload.data.id}`)
         })
     }

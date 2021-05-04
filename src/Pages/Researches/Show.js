@@ -23,14 +23,10 @@ function mapDispatchToProps(dispatch) {
 }
 function Show( { GetPosts, GetCanvasses, GetResearch } ) {
     const classes = useStyles();
-    const [ Loading, SetLoading ] = useState(false);
     const [ TabNum, SetTabNum ] = useState(0)
-    const [ Posts, SetPosts ] = useState([]);
-    const [ Canvasses, SetCanvasses ] = useState([]);
     const [ Research, SetResearch ] = useState({});
 
     let { id } = useParams();
-    const history = useHistory();
 
     useEffect(() =>{
         GetResearch(id).then(res => {

@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import REButton from "./Controls/REButton";
 import REQuestion from "./Controls/REQuestion";
 import { Paper } from "@material-ui/core";
-import { toast } from "react-toastify";
 import RESelect from "./Controls/RESelect";
 
 function mapDispatchToProps(dispatch) {
@@ -39,7 +38,6 @@ function QuestionListing({ NewQuestion, GetQuestions, DeleteQuestion, canvasId }
         DeleteQuestion(id, canvasId, questionId).then(res => {
             if(res && res.payload && res.payload.data) {
                 GetQuestionItems();
-                toast.success('Success');
             }
         })
     }
@@ -47,7 +45,6 @@ function QuestionListing({ NewQuestion, GetQuestions, DeleteQuestion, canvasId }
     const SaveNewQuestion = () => {
         NewQuestion(id, canvasId, {title: NewQuestionContent, type: QuestionType}).then(res => {
             if (res && res.payload && res.payload.data) {
-                toast.success('Success');
                 GetQuestionItems();
                 SetNewQuestionContent('');
                 SetNewQuestionState(false);

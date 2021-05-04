@@ -7,7 +7,6 @@ import { useHistory } from "react-router-dom";
 import { GetResearches, DeleteResearch } from "../../Actions";
 import RETable from "../Components/Controls/RETable";
 import REModal from "../Components/Controls/REModal";
-import toast from '../../Utils/Toast';
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ GetResearches, DeleteResearch }, dispatch);
@@ -24,11 +23,10 @@ function List({GetResearches, DeleteResearch}) {
                 SetResearch(res.payload.data);
             }
         })
-    }, [])
+    }, []);
 
     const ActionModal = () =>{
         DeleteResearch(Research).then(res => {
-            toast.success(res.payload.statusText);
             SetDeleteModal(false);
             GetResearches().then(res => {
                 if(res && res.payload && res.payload.data){
@@ -36,7 +34,7 @@ function List({GetResearches, DeleteResearch}) {
                 }
             })
         });
-    }
+    };
 
     return (
         <>
