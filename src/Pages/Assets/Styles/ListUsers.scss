@@ -1,0 +1,8 @@
+.re_user_listing{
+  position: relative;
+  &_search{
+    position: absolute;
+    z-index: 1;
+    right: 50px;
+  }
+}

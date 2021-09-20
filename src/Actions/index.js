@@ -16,7 +16,7 @@ import {
     GetCanvassesType,
     NewCanvasType,
     DeleteCanvasType,
-    GetQuestionsType, NewQuestionType, DeleteQuestionType
+    GetQuestionsType, NewQuestionType, DeleteQuestionType, SearchUsersType
 } from "./ActionTypes";
 
 export function Authenticate(username, password) {
@@ -272,6 +272,19 @@ export function DeleteQuestion(researchId, canvasId, questionId) {
     });
     return {
         type: DeleteQuestionType,
+        payload: Request,
+    };
+}
+
+export function SearchUsers(username) {
+    const Url = `${process.env.REACT_APP_API_URL}User/search?username=${username}`;
+    const Request = axios.get(Url, {
+        headers: {
+            'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))['token']}`
+        }
+    });
+    return {
+        type: SearchUsersType,
         payload: Request,
     };
 }

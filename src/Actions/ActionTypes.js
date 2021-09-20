@@ -17,4 +17,5 @@ export const DeleteCanvasType = "DeleteCanvasType";
 export const NewQuestionType = "NewQuestionType";
 export const DeleteQuestionType = "DeleteQuestionType";
 export const GetQuestionsType = "GetQuestionsType";
+export const SearchUsersType = "SearchUsersType";
 
