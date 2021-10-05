@@ -24,7 +24,7 @@ function LogIn({Authenticate}) {
                 setAuth(state.payload.data);
             }
         })
-    }
+    };
 
     return (
         <div className="re_login_container">

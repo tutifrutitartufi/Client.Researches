@@ -4,22 +4,22 @@ const RoleOptions = [
     { name: 'Member', value:0 },
     { name: 'Moderator', value:1 },
     { name: 'Admin', value:2 }
-]
+];
 
 const QuestionTypeOptions = [
     { name: 'Single', value:0 },
     { name: 'Multiple', value:1 },
     { name: 'Text', value:2 }
-]
+];
 
 export default function RESelect( props ) {
 
     const RenderOptions = () => {
         switch (props.label) {
             case 'Role':
-                return RoleOptions.map((role, index) => <MenuItem key={'_' + index} value={role.value}> {role.name} </MenuItem>)
+                return RoleOptions.map((role, index) => <MenuItem key={'_' + index} value={role.value}> {role.name} </MenuItem>);
             case 'Question type':
-                return QuestionTypeOptions.map((type, index) => <MenuItem key={'_' + index} value={type.value}> {type.name} </MenuItem>)
+                return QuestionTypeOptions.map((type, index) => <MenuItem key={'_' + index} value={type.value}> {type.name} </MenuItem>);
             default:
                 return props.options.map((user, index) => <MenuItem key={'_' + index} value={user.id}>{user.firstName + ' ' + user.lastName}</MenuItem>)
         }

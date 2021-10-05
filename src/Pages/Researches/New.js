@@ -36,8 +36,10 @@ function New( { NewResearch, GetUsers } ) {
             name: Name,
             moderator: Moderator,
             members: Members,
-        }).then((res) => {
-            history.push(`/researches/${res.payload.data.id}`)
+            canvasess: [],
+            posts: []
+        }).then(() => {
+            history.push(`/researches`)
         })
     };
 

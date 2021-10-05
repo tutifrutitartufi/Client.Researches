@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { NewPost, GetPosts, DeletePost } from "../../Actions";
+import { NewPost, GetPosts, DeletePost, GetUsers } from "../../Actions";
 import '../Assets/Styles/PostListing.scss';
 import '../Assets/Styles/Controls/REPost.scss'
 import { useEffect, useState } from "react";
@@ -12,19 +12,25 @@ import { Paper } from "@material-ui/core";
 import RELoader from "./Controls/RELoader";
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ NewPost, GetPosts, DeletePost }, dispatch);
+    return bindActionCreators({ NewPost, GetPosts, DeletePost, GetUsers }, dispatch);
 }
 
-function PostListing({NewPost, GetPosts, DeletePost}) {
+function PostListing({NewPost, GetPosts, DeletePost, GetUsers}) {
+    const [ Users, SetUsers ] = useState([]);
     const [ Posts, SetPosts ] = useState([]);
     const [ NewPostState, SetNewPostState ] = useState(false);
     const [ NewPostContent, SetNewPostContent ] = useState('');
-    let { id } = useParams();
     const [ IsLoading, SetLoading ] = useState(true);
+    let { id } = useParams();
 
 
     useEffect(() => {
-        GetPostItems();
+        GetUsers().then((res) => {
+            if(res && res.payload && res.payload.data) {
+                SetUsers(res.payload.data);
+            }
+            GetPostItems();
+        });
     },[]);
 
     const GetPostItems = () => {
@@ -45,7 +51,7 @@ function PostListing({NewPost, GetPosts, DeletePost}) {
     };
 
     const SaveNewPost = () => {
-        NewPost(id, {content: NewPostContent, likes: ['607df0cc8e71f8008f158413'], dislikes: ['607df0cc8e71f8008f158413']}).then(res => {
+        NewPost(id, {content: NewPostContent, author: JSON.parse(localStorage.getItem('user')).id}).then(res => {
             if (res && res.payload && res.payload.data) {
                 GetPostItems();
                 SetNewPostContent('');
@@ -75,9 +81,13 @@ function PostListing({NewPost, GetPosts, DeletePost}) {
         return <RELoader/>
     }
 
+    console.log(Posts);
+    console.log(Users);
+
+
     return (
         <>
-            { Posts.map((post, index) => <REPost key={"_" + index} DeletePostItem={DeletePostItem} {...post}/>) }
+            { Posts.map((post, index) => <REPost key={"_" + index} DeletePostItem={DeletePostItem} {...post} researchId={id}  author={Users.find(x => x.id == post.author)}/>) }
             <div className='re_post-listing-action-wrapper'>
                 { NewPostState && RenderNewPost() }
                 <REButton value='Add post' onClick={() => SetNewPostState(true)}/>

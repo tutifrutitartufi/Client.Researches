@@ -18,4 +18,8 @@ export const NewQuestionType = "NewQuestionType";
 export const DeleteQuestionType = "DeleteQuestionType";
 export const GetQuestionsType = "GetQuestionsType";
 export const SearchUsersType = "SearchUsersType";
+export const EditResearchType = "EditResearchType";
+export const EditCanvasType = "EditCanvasType";
+export const EditQuestionType = "EditQuestionType";
+export const EditPostType = "EditPostType";
 

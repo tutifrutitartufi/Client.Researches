@@ -5,13 +5,16 @@ import { useHistory, useParams } from "react-router-dom";
 import { Tabs, Paper, Tab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { GetPosts, GetCanvasses, GetResearch } from "../../Actions";
+import { GetPosts, GetCanvasses, GetResearch, GetUsers, EditResearch } from "../../Actions";
 
 import PostListing from '../Components/PostListing'
 import CanvasListing from '../Components/CanvasListing'
 
 import '../Assets/Styles/ShowResearch.scss';
 import RELoader from "../Components/Controls/RELoader";
+import REButton from "../Components/Controls/REButton";
+import RETextfield from "../Components/Controls/RETextfield";
+import RESelect from "../Components/Controls/RESelect";
 
 const useStyles = makeStyles({
     root: {
@@ -20,13 +23,21 @@ const useStyles = makeStyles({
 });
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ GetPosts, GetCanvasses, GetResearch }, dispatch);
+    return bindActionCreators({ GetPosts, GetCanvasses, GetResearch, GetUsers, EditResearch }, dispatch);
 }
-function Show( { GetPosts, GetCanvasses, GetResearch } ) {
+function Show( { GetPosts, GetCanvasses, GetResearch, GetUsers, EditResearch } ) {
     const classes = useStyles();
-    const [ TabNum, SetTabNum ] = useState(0);
+    const [ Users, SetUsers ] = useState([]);
+    const [ TabNum, SetTabNum ] = useState(2);
     const [ Research, SetResearch ] = useState({});
     const [ IsLoading, SetLoading ] = useState(true);
+    const [ Name, SetName ] = useState('');
+    const [ Moderator, SetModerator ] = useState();
+    const [ Members, SetMembers ] = useState([]);
+
+    let history = useHistory();
+
+
 
     let { id } = useParams();
 
@@ -34,10 +45,33 @@ function Show( { GetPosts, GetCanvasses, GetResearch } ) {
         GetResearch(id).then(res => {
             if(res && res.payload && res.payload.data) {
                 SetResearch(res.payload.data);
+                GetUsers().then((users) => {
+                    SetUsers(users.payload.data);
+                    SetName(res.payload.data.name);
+                    SetModerator(res.payload.data.moderator);
+                    SetMembers(res.payload.data.members);
+                    SetLoading(false);
+                });
             }
-            SetLoading(false);
-        })
+        });
     }, []);
+
+    const HandleChangeMembers = (event) => {
+        SetMembers(event.target.value);
+    };
+
+    const SaveResearch = () => {
+        EditResearch({
+            id: Research.id,
+            name: Name,
+            moderator: Moderator,
+            members: Members,
+            canvasses: Research.canvasses,
+            posts: Research.posts
+        }).then((_,__) => {
+            history.push(`/researches`)
+        })
+    };
 
     const Content = () => {
         switch (TabNum) {
@@ -50,17 +84,44 @@ function Show( { GetPosts, GetCanvasses, GetResearch } ) {
 
         }
     };
-
-    const RenderInfo = () =>
-        (
-            <div>
-                <span>Name: { Research.name }</span>
-                <span>Moderator: { Research.moderator }</span>
-                <div>Members:
-                    { Research.members.map((member) => <div>{member}</div>) }
-                </div>
+    
+    
+    const RenderInfo = () => (
+        <>
+            <div className='re_action_wrapper'>
+                <REButton
+                    value='Back'
+                    onClick={() => history.push(`/researches`)}
+                />
+                <REButton
+                    value='Save'
+                    onClick={() => SaveResearch()}
+                />
             </div>
-        );
+            <div className='re_user_edit_container'>
+                <RETextfield
+                    label='Name'
+                    value={ Name }
+                    onChange={(e) => SetName(e.target.value)}
+                />
+                <RESelect
+                    label='Moderator'
+                    options={ Users }
+                    value={ Moderator }
+                    onChange={(e) => {
+                        SetModerator(e.target.value)
+                    }}
+                />
+                <RESelect
+                    multiple
+                    label='Members'
+                    options={ Users }
+                    value={ Members }
+                    onChange={ HandleChangeMembers }
+                />
+            </div>
+        </>
+    );
 
     if( IsLoading ) {
         return <RELoader/>

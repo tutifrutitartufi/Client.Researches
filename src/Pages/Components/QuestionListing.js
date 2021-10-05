@@ -14,7 +14,7 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({ NewQuestion, GetQuestions, DeleteQuestion }, dispatch);
 }
 
-function QuestionListing({ NewQuestion, GetQuestions, DeleteQuestion, canvasId } ) {
+function QuestionListing({ NewQuestion, GetQuestions, DeleteQuestion, canvasId, researchId } ) {
     const [ Questions, SetQuestions ] = useState([]);
     const [ NewQuestionState, SetNewQuestionState ] = useState(false);
     const [ NewQuestionContent, SetNewQuestionContent ] = useState('');
@@ -27,7 +27,6 @@ function QuestionListing({ NewQuestion, GetQuestions, DeleteQuestion, canvasId }
     useEffect(() => {
         GetQuestionItems();
     },[]);
-
 
     const GetQuestionItems = () => {
         GetQuestions(id, canvasId).then(res => {
@@ -87,7 +86,7 @@ function QuestionListing({ NewQuestion, GetQuestions, DeleteQuestion, canvasId }
 
     return (
         <>
-            { Questions.map((question, index) => <REQuestion key={"_" + index} canvasId={canvasId} DeleteQuestionItem={DeleteQuestionItem} {...question}/>) }
+            { Questions.map((question, index) => <REQuestion key={"_" + index} researchId={researchId} canvasId={canvasId} DeleteQuestionItem={DeleteQuestionItem} {...question}/>) }
             <div className='re_post-listing-action-wrapper'>
                 { NewQuestionState && RenderNewPost() }
                 <REButton value='Add question' onClick={() => SetNewQuestionState(true)}/>

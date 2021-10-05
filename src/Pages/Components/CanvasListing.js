@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { NewCanvas, GetCanvasses, DeleteCanvas } from "../../Actions";
+import { NewCanvas, GetCanvasses, DeleteCanvas, EditCanvas } from "../../Actions";
 import '../Assets/Styles/PostListing.scss';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -11,7 +11,7 @@ import { Paper } from "@material-ui/core";
 import RELoader from "./Controls/RELoader";
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ NewCanvas, GetCanvasses, DeleteCanvas }, dispatch);
+    return bindActionCreators({ NewCanvas, GetCanvasses, DeleteCanvas, EditCanvas }, dispatch);
 }
 function CanvasListing({ NewCanvas, GetCanvasses, DeleteCanvas }) {
     const [ Canvasses, SetCanvasses ] = useState([]);
@@ -52,6 +52,7 @@ function CanvasListing({ NewCanvas, GetCanvasses, DeleteCanvas }) {
         })
     };
 
+
     const RenderNewCanvas = () => {
         return (
             <Paper className='re_new-post-wrapper' elevation={3}>
@@ -78,7 +79,7 @@ function CanvasListing({ NewCanvas, GetCanvasses, DeleteCanvas }) {
 
     return (
         <>
-            { Canvasses.map((canvas, index) => <RECanvas key={"_" + index} DeleteCanvasItem={DeleteCanvasItem} {...canvas}/>) }
+            { Canvasses.map((canvas, index) => <RECanvas key={"_" + index} researchId={id} DeleteCanvasItem={DeleteCanvasItem} {...canvas} />) }
             <div className='re_post-listing-action-wrapper'>
                 { NewCanvasState && RenderNewCanvas() }
                 <REButton value='Add canvas' onClick={() => SetNewCanvasState(true)}/>

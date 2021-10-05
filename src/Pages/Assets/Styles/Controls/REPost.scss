@@ -4,11 +4,28 @@
   position: relative;
   padding: 30px;
 
+  .re_trash_action {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+      height: 20px;
+    }
+
+  }
+
   .re_trash-bin {
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
+
   }
 
   &.re_new-post-wrapper {

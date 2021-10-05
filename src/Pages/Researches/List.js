@@ -4,18 +4,19 @@ import { bindActionCreators } from "redux";
 import { useHistory } from "react-router-dom";
 
 
-import { GetResearches, DeleteResearch } from "../../Actions";
+import {GetResearches, DeleteResearch, GetUsers} from "../../Actions";
 import RETable from "../Components/Controls/RETable";
 import REModal from "../Components/Controls/REModal";
 import RELoader from "../Components/Controls/RELoader";
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ GetResearches, DeleteResearch }, dispatch);
+    return bindActionCreators({ GetResearches, DeleteResearch, GetUsers }, dispatch);
 }
 
-function List({GetResearches, DeleteResearch}) {
+function List({GetResearches, DeleteResearch, GetUsers}) {
     const [Research, SetResearch] = useState([]);
     const [DeleteModal, SetDeleteModal] = useState(false);
+    const [Users, SetUsers] = useState([]);
     const history = useHistory();
     const [ IsLoading, SetLoading ] = useState(true);
 
@@ -23,8 +24,13 @@ function List({GetResearches, DeleteResearch}) {
         GetResearches().then(res => {
             if(res && res.payload && res.payload.data){
                 SetResearch(res.payload.data);
+                GetUsers().then(users => {
+                    if(users && users.payload && users.payload.data) {
+                        SetUsers(users.payload.data);
+                        SetLoading(false);
+                    }
+                })
             }
-            SetLoading(false);
         })
     }, []);
 
@@ -43,6 +49,7 @@ function List({GetResearches, DeleteResearch}) {
         return <RELoader/>
     }
 
+
     return (
         <>
             { DeleteModal ? <REModal Action={ActionModal} Research={Research} Close={SetDeleteModal}/> : <></> }
@@ -50,7 +57,7 @@ function List({GetResearches, DeleteResearch}) {
                 data={ Research }
                 columns={[
                     { title: 'Name', field: 'name' },
-                    { title: 'Moderator', field: 'moderator' },
+                    { title: 'Moderator', field: 'moderator', render: rowData => <span>{Users.find(x => x.id === rowData.moderator).firstName + " " + Users.find(x => x.id === rowData.moderator).lastName}</span>}
                 ]}
                 title='Researches'
                 actions={[

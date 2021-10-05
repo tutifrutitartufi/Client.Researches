@@ -35,8 +35,8 @@ function New( { NewUser } ) {
             password: Password,
             dateOfBirth: DateOfBirth,
             profilePicture: ProfilePicture
-        }).then((res) => {
-            history.push(`/users/${res.payload.data.id}`)
+        }).then(() => {
+            history.push(`/users`);
         })
     }
 
